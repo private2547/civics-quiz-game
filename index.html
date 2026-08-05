@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Civics Quiz Game</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <div id="home-screen" class="screen">
+            <img src="logo.png" alt="Abba Ismail Global Services" class="logo">
+
+            <h1>Civics Quiz Game</h1>
+            <input type="text" id="player-name" placeholder="Enter your name">
+<p class="subtitle">
+    GD-G01 | Computing Research Acceleration Initiative
+</p>
+
+<p class="description">
+    Test your knowledge of Nigerian Civics and become a better citizen.
+</p>
+
+<div class="quiz-info">
+    <span>🎯 10 Questions</span>
+    <span>⏱️ 20 Seconds</span>
+    <span>🏆 Civic Level</span>
+</div>
+
+            <button id="start-btn">Start Quiz</button>
+        </div>
+        <button id="theme-btn">🌙 Dark Mode</button>
+<button id="sound-btn">🔊 Sound ON</button>
+<p class="developer">
+  <p class="developer">
+    Developed by <strong>Abba Ismail</strong>
+</p>
+        <div id="quiz-screen" class="screen hidden">
+
+            <div class="quiz-header">
+                <span id="question-number">Question 1/10</span>
+                <span id="score">Score:0</span>
+            </div><span id="timer">⏱️ 20s</span>
+
+            <div class="progress">
+                <div id="progress-bar"></div>
+            </div>
+
+            <h2 id="question">Question goes here</h2>
+
+            <div id="answers"></div>
+
+            <button id="next-btn" class="hidden">
+                Next Question
+            </button>
+
+        </div>
+
+        <div id="result-screen" class="screen hidden">
+
+            <div class="trophy">🏆</div>
+
+            <h1>Quiz Completed!</h1>
+
+            <p>Your final score is:</p>
+<p id="player-result"></p>
+            <div id="final-score">0/10</div>
+<div id="percentage">0%</div>
+
+<div id="grade">Grade: -</div>
+<div id="civic-level">🏅 Civic Level: -</div>
+<p id="best-score">🏆 Best Score: 0/10</p>
+            <p id="result-message"></p>
+
+            <button id="restart-btn">
+                Play Again
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
