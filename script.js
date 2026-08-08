@@ -69,15 +69,14 @@ function showQuestion() {
     clearInterval(timerInterval);
 
     const current = questions[currentQuestion];
-console.log("CURRENT QUESTION:", current);
 
     if (!current) {
         showResult();
         return;
     }
-    
+
     questionNumber.textContent =
-        `Question ${currentQuestion + 1}/10`;
+        `Question ${currentQuestion + 1}/${questions.length}`;
 
     scoreDisplay.textContent =
         `Score: ${score}`;
@@ -89,39 +88,27 @@ console.log("CURRENT QUESTION:", current);
 
     nextBtn.classList.add("hidden");
 
-    const progress =
-        ((currentQuestion + 1) / 10) * 100;
-
-    progressBar.style.width =
-        `${progress}%`;
-
     timeLeft = 20;
 
     timerDisplay.textContent =
         `⏱️ ${timeLeft}s`;
 
-
     current.answers.forEach((answer, index) => {
 
-        const button =
-            document.createElement("button");
+        const button = document.createElement("button");
 
         button.textContent = answer;
 
         button.classList.add("answer-btn");
 
-        button.addEventListener("click", () => {
-
+        button.addEventListener("click", function () {
             selectAnswer(button, index);
-
         });
 
         answersContainer.appendChild(button);
-
     });
 
-
-    timerInterval = setInterval(() => {
+    timerInterval = setInterval(function () {
 
         timeLeft--;
 
@@ -135,12 +122,10 @@ console.log("CURRENT QUESTION:", current);
             disableAnswers();
 
             nextBtn.classList.remove("hidden");
-
         }
 
     }, 1000);
 }
-
 
 // =========================
 // SELECT ANSWER
