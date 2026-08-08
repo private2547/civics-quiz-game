@@ -74,6 +74,8 @@ alert("Question: " + questions[currentQuestion].question);
 
     const current = questions[currentQuestion];
 
+console.log("CURRENT QUESTION:", current);
+
     questionNumber.textContent =
         `Question ${currentQuestion + 1}/${questions.length}`;
 
@@ -81,7 +83,7 @@ alert("Question: " + questions[currentQuestion].question);
         `Score: ${score}`;
 
     questionText.textContent =
-        current.question;
+    current.question || "ERROR: Question not found";
 
     answersContainer.innerHTML = "";
 
