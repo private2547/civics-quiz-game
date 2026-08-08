@@ -82,8 +82,7 @@ console.log("CURRENT QUESTION:", current);
     scoreDisplay.textContent =
         `Score: ${score}`;
 
-    questionText.textContent =
-    current.question || "ERROR: Question not found";
+    questionText.textContent = "TEST QUESTION";
 
     answersContainer.innerHTML = "";
 
