@@ -1,4 +1,3 @@
-console.log("Questions loaded:", questions.length);
 let currentQuestion = 0;
 let score = 0;
 let timeLeft = 20;
@@ -62,11 +61,6 @@ console.log("CURRENT QUESTION:", questions[currentQuestion]);
     showQuestion();
 }
 
-
-// ===============================
-// SHOW QUESTION
-// ===============================
-
 function showQuestion() {
 
     clearInterval(timerInterval);
@@ -127,32 +121,6 @@ function showQuestion() {
 
     }, 1000);
 }
-
-
-    // ===============================
-    // ANSWERS
-    // ===============================
-
-    current.answers.forEach((answer, index) => {
-
-        const button =
-            document.createElement("button");
-
-        button.textContent = answer;
-
-        button.classList.add("answer-btn");
-
-        button.addEventListener("click", () => {
-
-            selectAnswer(button, index);
-
-        });
-
-        answersContainer.appendChild(button);
-    });
-}
-
-
 // ===============================
 // SOUND
 // ===============================
