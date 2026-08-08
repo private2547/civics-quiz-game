@@ -32,11 +32,13 @@ const civicLevel = document.getElementById("civic-level");
 // =========================
 // START QUIZ
 // =========================
+
 function startQuiz() {
 
-    alert("START QUIZ FUNCTION WORKS!");
-
-    playerName = document.getElementById("player-name").value.trim();
+    playerName = document
+        .getElementById("player-name")
+        .value
+        .trim();
 
     if (playerName === "") {
         alert("Please enter your name");
@@ -55,8 +57,7 @@ function startQuiz() {
     resultScreen.classList.add("hidden");
     quizScreen.classList.remove("hidden");
 
-    alert("ABOUT TO SHOW QUESTION!");
-showQuestion();
+    showQuestion();
 }
 
 
@@ -93,20 +94,30 @@ function showQuestion() {
     timerDisplay.textContent =
         `⏱️ ${timeLeft}s`;
 
+
+    // CREATE ANSWERS
+
     current.answers.forEach((answer, index) => {
 
-        const button = document.createElement("button");
+        const button =
+            document.createElement("button");
 
         button.textContent = answer;
 
         button.classList.add("answer-btn");
 
-        button.addEventListener("click", function () {
+        button.addEventListener("click", () => {
+
             selectAnswer(button, index);
+
         });
 
         answersContainer.appendChild(button);
+
     });
+
+
+    // TIMER
 
     timerInterval = setInterval(function () {
 
@@ -122,6 +133,7 @@ function showQuestion() {
             disableAnswers();
 
             nextBtn.classList.remove("hidden");
+
         }
 
     }, 1000);
