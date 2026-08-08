@@ -1075,23 +1075,24 @@ const questions = [
     }
 ];
     {
-        question: "Why should citizens respect traffic rules?",
-        answers: [
-            "To improve road safety",
-            "To delay everyone",
-            "To encourage accidents",
-            "To avoid responsibility"
-        ],
-        correct: 0
-    },
+    question: "Why should citizens respect traffic rules?",
+    answers: [
+        "To improve road safety",
+        "To delay everyone",
+        "To encourage accidents",
+        "To avoid responsibility"
+    ],
+    correct: 0
+},
 
-    {
-        question: "Which of these is an example of honesty?",
-        answers: [
-            "Returning lost property",
-            "Keeping stolen property",
-            "Cheating",
-            "Lying"
-        ],
-        correct: 0
-    };
+{
+    question: "Which of these is an example of honesty?",
+    answers: [
+        "Returning lost property",
+        "Keeping stolen property",
+        "Cheating",
+        "Lying"
+    ],
+    correct: 0
+}
+];
