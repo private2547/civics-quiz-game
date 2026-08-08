@@ -55,7 +55,8 @@ function startQuiz() {
     resultScreen.classList.add("hidden");
     quizScreen.classList.remove("hidden");
 
-    showQuestion();
+    alert("ABOUT TO SHOW QUESTION!");
+showQuestion();
 }
 
 
