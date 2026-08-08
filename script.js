@@ -32,13 +32,11 @@ const civicLevel = document.getElementById("civic-level");
 // =========================
 // START QUIZ
 // =========================
-
 function startQuiz() {
 
-    alert("START QUIZ WORKS!");
+    alert("START QUIZ FUNCTION WORKS!");
 
-    playerName =
-        document.getElementById("player-name").value.trim();
+    playerName = document.getElementById("player-name").value.trim();
 
     if (playerName === "") {
         alert("Please enter your name");
@@ -46,11 +44,9 @@ function startQuiz() {
     }
 
     if (!Array.isArray(questions) || questions.length === 0) {
-        alert("Questions could not be loaded.");
+        alert("QUESTIONS NOT LOADED!");
         return;
     }
-
-    clearInterval(timerInterval);
 
     currentQuestion = 0;
     score = 0;
