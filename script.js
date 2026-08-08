@@ -41,7 +41,7 @@ const playerResult = document.getElementById("player-result");
 startBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
-
+console.log("CURRENT QUESTION:", questions[currentQuestion]);
     clearInterval(timerInterval);
 
     playerName =
