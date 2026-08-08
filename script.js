@@ -68,6 +68,7 @@ console.log("CURRENT QUESTION:", questions[currentQuestion]);
 // ===============================
 
 function showQuestion() {
+alert("Question: " + questions[currentQuestion].question);
 
     clearInterval(timerInterval);
 
