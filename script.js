@@ -70,12 +70,13 @@ function showQuestion() {
     clearInterval(timerInterval);
 
     const current = questions[currentQuestion];
+console.log("CURRENT QUESTION:", current);
 
     if (!current) {
         showResult();
         return;
     }
-
+    
     questionNumber.textContent =
         `Question ${currentQuestion + 1}/10`;
 
