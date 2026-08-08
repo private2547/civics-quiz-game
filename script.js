@@ -35,6 +35,8 @@ const civicLevel = document.getElementById("civic-level");
 
 function startQuiz() {
 
+    alert("START QUIZ WORKS!");
+
     playerName =
         document.getElementById("player-name").value.trim();
 
