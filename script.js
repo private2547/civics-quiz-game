@@ -68,45 +68,46 @@ console.log("CURRENT QUESTION:", questions[currentQuestion]);
 // ===============================
 
 function showQuestion() {
-alert("Question: " + questions[currentQuestion].question);
 
     clearInterval(timerInterval);
 
     const current = questions[currentQuestion];
 
-console.log("CURRENT QUESTION:", current);
-
     questionNumber.textContent =
-        `Question ${currentQuestion + 1}/${questions.length}`;
+        `Question ${currentQuestion + 1}/10`;
 
     scoreDisplay.textContent =
         `Score: ${score}`;
 
-    questionText.textContent = "TEST QUESTION";
+    questionText.textContent =
+        current.question;
 
     answersContainer.innerHTML = "";
 
     nextBtn.classList.add("hidden");
 
-
-    // ===============================
-    // PROGRESS BAR
-    // ===============================
-
-    const progress =
-        ((currentQuestion + 1) / questions.length) * 100;
-
-    progressBar.style.width = `${progress}%`;
-
-
-    // ===============================
-    // TIMER
-    // ===============================
-
     timeLeft = 20;
 
     timerDisplay.textContent =
         `⏱️ ${timeLeft}s`;
+
+    current.answers.forEach((answer, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.textContent = answer;
+
+        button.classList.add("answer-btn");
+
+        button.addEventListener("click", () => {
+
+            selectAnswer(button, index);
+
+        });
+
+        answersContainer.appendChild(button);
+    });
 
     timerInterval = setInterval(() => {
 
@@ -125,6 +126,7 @@ console.log("CURRENT QUESTION:", current);
         }
 
     }, 1000);
+}
 
 
     // ===============================
