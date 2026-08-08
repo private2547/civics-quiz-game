@@ -1,14 +1,9 @@
 let currentQuestion = 0;
 let score = 0;
 let timeLeft = 20;
-let timerInterval;
+let timerInterval = null;
 let playerName = "";
 let soundEnabled = true;
-
-
-// ===============================
-// GET HTML ELEMENTS
-// ===============================
 
 const homeScreen = document.getElementById("home-screen");
 const quizScreen = document.getElementById("quiz-screen");
@@ -31,17 +26,14 @@ const percentageDisplay = document.getElementById("percentage");
 const gradeDisplay = document.getElementById("grade");
 const resultMessage = document.getElementById("result-message");
 const playerResult = document.getElementById("player-result");
+const civicLevel = document.getElementById("civic-level");
 
 
-// ===============================
+// =========================
 // START QUIZ
-// ===============================
-
-startBtn.addEventListener("click", startQuiz);
+// =========================
 
 function startQuiz() {
-console.log("CURRENT QUESTION:", questions[currentQuestion]);
-    clearInterval(timerInterval);
 
     playerName =
         document.getElementById("player-name").value.trim();
@@ -50,6 +42,13 @@ console.log("CURRENT QUESTION:", questions[currentQuestion]);
         alert("Please enter your name");
         return;
     }
+
+    if (!Array.isArray(questions) || questions.length === 0) {
+        alert("Questions could not be loaded.");
+        return;
+    }
+
+    clearInterval(timerInterval);
 
     currentQuestion = 0;
     score = 0;
@@ -61,11 +60,21 @@ console.log("CURRENT QUESTION:", questions[currentQuestion]);
     showQuestion();
 }
 
+
+// =========================
+// SHOW QUESTION
+// =========================
+
 function showQuestion() {
 
     clearInterval(timerInterval);
 
     const current = questions[currentQuestion];
+
+    if (!current) {
+        showResult();
+        return;
+    }
 
     questionNumber.textContent =
         `Question ${currentQuestion + 1}/10`;
@@ -80,10 +89,17 @@ function showQuestion() {
 
     nextBtn.classList.add("hidden");
 
+    const progress =
+        ((currentQuestion + 1) / 10) * 100;
+
+    progressBar.style.width =
+        `${progress}%`;
+
     timeLeft = 20;
 
     timerDisplay.textContent =
         `⏱️ ${timeLeft}s`;
+
 
     current.answers.forEach((answer, index) => {
 
@@ -101,7 +117,9 @@ function showQuestion() {
         });
 
         answersContainer.appendChild(button);
+
     });
+
 
     timerInterval = setInterval(() => {
 
@@ -117,47 +135,16 @@ function showQuestion() {
             disableAnswers();
 
             nextBtn.classList.remove("hidden");
+
         }
 
     }, 1000);
 }
-// ===============================
-// SOUND
-// ===============================
-
-function playCorrectSound() {
-
-    if (!soundEnabled) return;
-
-    const audio = new Audio("correct.mp3");
-
-    audio.play().catch(() => {});
-}
 
 
-function playWrongSound() {
-
-    if (!soundEnabled) return;
-
-    const audio = new Audio("wrong.mp3");
-
-    audio.play().catch(() => {});
-}
-
-
-function playFinishSound() {
-
-    if (!soundEnabled) return;
-
-    const audio = new Audio("finish.mp3");
-
-    audio.play().catch(() => {});
-}
-
-
-// ===============================
+// =========================
 // SELECT ANSWER
-// ===============================
+// =========================
 
 function selectAnswer(button, selectedIndex) {
 
@@ -170,7 +157,6 @@ function selectAnswer(button, selectedIndex) {
 
     const allButtons =
         document.querySelectorAll(".answer-btn");
-
 
     if (selectedIndex === correctIndex) {
 
@@ -185,12 +171,11 @@ function selectAnswer(button, selectedIndex) {
 
     } else {
 
-        playWrongSound();
-
         button.classList.add("wrong");
 
-        if (allButtons[correctIndex]) {
+        playWrongSound();
 
+        if (allButtons[correctIndex]) {
             allButtons[correctIndex]
                 .classList.add("correct");
         }
@@ -200,28 +185,23 @@ function selectAnswer(button, selectedIndex) {
 }
 
 
-// ===============================
+// =========================
 // DISABLE ANSWERS
-// ===============================
+// =========================
 
 function disableAnswers() {
 
-    const allButtons =
-        document.querySelectorAll(".answer-btn");
-
-    allButtons.forEach(button => {
-
-        button.disabled = true;
-
-    });
+    document
+        .querySelectorAll(".answer-btn")
+        .forEach(button => {
+            button.disabled = true;
+        });
 }
 
 
-// ===============================
+// =========================
 // NEXT QUESTION
-// ===============================
-
-nextBtn.addEventListener("click", nextQuestion);
+// =========================
 
 function nextQuestion() {
 
@@ -229,20 +209,21 @@ function nextQuestion() {
 
     currentQuestion++;
 
-    if (currentQuestion < questions.length) {
+    if (currentQuestion < 10) {
 
         showQuestion();
 
     } else {
 
         showResult();
+
     }
 }
 
 
-// ===============================
-// SHOW RESULT
-// ===============================
+// =========================
+// RESULT
+// =========================
 
 function showResult() {
 
@@ -251,99 +232,44 @@ function showResult() {
     playFinishSound();
 
     quizScreen.classList.add("hidden");
-
     resultScreen.classList.remove("hidden");
-
-
-    // PLAYER NAME
 
     playerResult.textContent =
         `Player: ${playerName}`;
 
-
-    // ===============================
-    // BEST SCORE
-    // ===============================
-
-    let bestScore =
-        Number(localStorage.getItem("civicsBestScore")) || 0;
-
-    if (score > bestScore) {
-
-        bestScore = score;
-
-        localStorage.setItem(
-            "civicsBestScore",
-            bestScore
-        );
-    }
-
-    bestScoreDisplay.textContent =
-        `🏆 Best Score: ${bestScore}/${questions.length}`;
-
-
-    // ===============================
-    // FINAL SCORE
-    // ===============================
+    const totalQuestions = 10;
 
     finalScore.textContent =
-        `${score}/${questions.length}`;
-
-
-    // ===============================
-    // PERCENTAGE
-    // ===============================
+        `${score}/${totalQuestions}`;
 
     const percentage =
         Math.round(
-            (score / questions.length) * 100
+            (score / totalQuestions) * 100
         );
 
     percentageDisplay.textContent =
         `${percentage}%`;
 
 
-    // ===============================
-    // GRADE
-    // ===============================
-
     let grade;
 
     if (percentage >= 90) {
-
         grade = "A";
-
     } else if (percentage >= 80) {
-
         grade = "B";
-
     } else if (percentage >= 70) {
-
         grade = "C";
-
     } else if (percentage >= 60) {
-
         grade = "D";
-
     } else if (percentage >= 50) {
-
         grade = "E";
-
     } else {
-
         grade = "F";
     }
 
     gradeDisplay.textContent =
         `Grade: ${grade}`;
 
-
-    // ===============================
-    // CIVIC LEVEL
-    // ===============================
-
-    const civicLevel =
-        document.getElementById("civic-level");
 
     if (percentage >= 90) {
 
@@ -367,10 +293,6 @@ function showResult() {
     }
 
 
-    // ===============================
-    // RESULT MESSAGE
-    // ===============================
-
     if (percentage === 100) {
 
         resultMessage.textContent =
@@ -393,9 +315,24 @@ function showResult() {
     }
 
 
-    // ===============================
-    // CONFETTI
-    // ===============================
+    let bestScore =
+        Number(
+            localStorage.getItem("civicsBestScore")
+        ) || 0;
+
+    if (score > bestScore) {
+
+        bestScore = score;
+
+        localStorage.setItem(
+            "civicsBestScore",
+            bestScore
+        );
+    }
+
+    bestScoreDisplay.textContent =
+        `🏆 Best Score: ${bestScore}/10`;
+
 
     if (typeof confetti === "function") {
 
@@ -406,35 +343,90 @@ function showResult() {
                 y: 0.6
             }
         });
+
     }
 }
 
 
-// ===============================
-// PLAY AGAIN
-// ===============================
+// =========================
+// SOUND
+// =========================
 
-restartBtn.addEventListener("click", function () {
+function playCorrectSound() {
+
+    if (!soundEnabled) return;
+
+    const audio =
+        new Audio("correct.mp3");
+
+    audio.play().catch(() => {});
+}
+
+
+function playWrongSound() {
+
+    if (!soundEnabled) return;
+
+    const audio =
+        new Audio("wrong.mp3");
+
+    audio.play().catch(() => {});
+}
+
+
+function playFinishSound() {
+
+    if (!soundEnabled) return;
+
+    const audio =
+        new Audio("finish.mp3");
+
+    audio.play().catch(() => {});
+}
+
+
+// =========================
+// PLAY AGAIN
+// =========================
+
+function restartQuiz() {
 
     clearInterval(timerInterval);
 
     document.getElementById("player-name").value = "";
 
     playerName = "";
-
     currentQuestion = 0;
-
     score = 0;
 
     resultScreen.classList.add("hidden");
-
     homeScreen.classList.remove("hidden");
-});
+}
 
 
-// ===============================
+// =========================
+// BUTTONS
+// =========================
+
+startBtn.addEventListener(
+    "click",
+    startQuiz
+);
+
+nextBtn.addEventListener(
+    "click",
+    nextQuestion
+);
+
+restartBtn.addEventListener(
+    "click",
+    restartQuiz
+);
+
+
+// =========================
 // DARK MODE
-// ===============================
+// =========================
 
 const themeBtn =
     document.getElementById("theme-btn");
@@ -443,7 +435,9 @@ themeBtn.addEventListener("click", () => {
 
     document.body.classList.toggle("dark");
 
-    if (document.body.classList.contains("dark")) {
+    if (
+        document.body.classList.contains("dark")
+    ) {
 
         themeBtn.textContent =
             "☀️ Light Mode";
@@ -453,12 +447,13 @@ themeBtn.addEventListener("click", () => {
         themeBtn.textContent =
             "🌙 Dark Mode";
     }
+
 });
 
 
-// ===============================
-// SOUND ON / OFF
-// ===============================
+// =========================
+// SOUND BUTTON
+// =========================
 
 const soundBtn =
     document.getElementById("sound-btn");
@@ -467,30 +462,9 @@ soundBtn.addEventListener("click", () => {
 
     soundEnabled = !soundEnabled;
 
-    if (soundEnabled) {
+    soundBtn.textContent =
+        soundEnabled
+            ? "🔊 Sound ON"
+            : "🔇 Sound OFF";
 
-        soundBtn.textContent =
-            "🔊 Sound ON";
-
-    } else {
-
-        soundBtn.textContent =
-            "🔇 Sound OFF";
-    }
 });
-
-Abin da na gyara
-
-✅ Na cire "6" da ya kasance cikin timer.
-✅ Na tabbatar timer yana tsayawa kafin sabon quiz ya fara.
-✅ Na gyara sound ya daina kawo error idan browser ya hana autoplay.
-✅ Na ƙara kariya idan "correct" answer button bai samu ba.
-✅ Score, Best Score, Grade, Percentage, Civic Level, Confetti duk suna nan.
-✅ Dark Mode yana nan.
-✅ Sound ON/OFF yana nan.
-✅ 20-second timer yana nan.
-✅ Play Again yana nan.
-
-Yanzu: ka je GitHub → "script.js" → Edit ✏️ → "Ctrl+A"/select all → ka goge tsohon code → ka saka wannan → Commit changes.
-
-Bayan ka gama, ka buɗe game ɗinka ka gwada Start → Answer → Next → Result → Play Again.
