@@ -1096,3 +1096,5 @@ const questions = [
     correct: 0
 }
 ];
+
+console.log("QUESTIONS LOADED:", questions.length);
